@@ -1,0 +1,44 @@
+package vn.edu.hcmuaf.fit.webdacsanvungmienvn.controller.cart;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.webdacsanvungmienvn.cart.Cart;
+import vn.edu.hcmuaf.fit.webdacsanvungmienvn.model.Product;
+import vn.edu.hcmuaf.fit.webdacsanvungmienvn.service.ProductService;
+
+import java.io.IOException;
+
+@WebServlet(name = "AddCart", value = "/add-cart")
+public class AddCart extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+        }
+        ProductService productService = new ProductService();
+        Product product = productService.getProduct(productId);
+        if (product != null) {
+            if (quantity > product.getQuantity()) {
+                String referer = request.getHeader("Referer");
+                response.sendRedirect(referer != null ? referer : "home");
+                return;
+            }
+            cart.addItem(product, quantity);
+            session.setAttribute("cart", cart);
+            String referer = request.getHeader("Referer");
+            response.sendRedirect(referer != null ? referer : "home");
+            return;
+        }
+        response.sendRedirect("home");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+}

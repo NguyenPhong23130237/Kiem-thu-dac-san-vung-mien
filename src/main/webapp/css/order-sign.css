@@ -1,0 +1,269 @@
+/* Compact, simplified styles for order signing page */
+main {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.compact-sign {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.compact-title h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.compact-title h1 small {
+    color: #666;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #004080;
+}
+
+/* Khung bọc từng phần dữ liệu */
+.compact-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1e293b;
+    font-size: 16px;
+    border-left: 4px solid #2f7d32;
+    padding-left: 10px;
+}
+
+/* Phần hiển thị mã Hash đơn hàng */
+.hash-compact {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 12px 14px;
+    border-radius: 6px;
+}
+
+.order-hash {
+    flex: 1;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #0f172a;
+    word-break: break-all;
+    font-weight: 600;
+}
+
+.simple-key {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.simple-key p {
+    margin: 6px 0;
+    color: #334155;
+}
+
+.simple-key strong {
+    color: #0f172a;
+    display: inline-block;
+    width: 110px;
+}
+
+/* Phần chọn phương thức cung cấp chữ ký (Radio) */
+.input-method-selector {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 6px;
+    width: fit-content;
+}
+
+.input-method-selector label {
+    cursor: pointer;
+    font-weight: 600;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.input-method-selector input[type="radio"] {
+    margin: 0;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/* === CSS CHỈNH SỬA Ô NHẬP/DÁN CHỮ KÝ === */
+.input-section {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#signatureText {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    resize: vertical;
+    box-sizing: border-box;
+    background: #fff;
+    color: #334155;
+    min-height: 140px;
+    line-height: 1.5;
+    transition: all 0.2s ease-in-out;
+}
+
+#signatureText:focus {
+    outline: none;
+    border-color: #2f7d32;
+    box-shadow: 0 0 0 3px rgba(47, 125, 50, 0.15);
+}
+
+/* Khung chọn file upload chữ ký */
+#signatureFile {
+    width: 100%;
+    padding: 14px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 6px;
+    background: #f8fafc;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+#signatureFile:hover {
+    border-color: #2f7d32;
+    background: #f0fdf4;
+}
+
+/* Các loại nút bấm */
+.ghost-button {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.ghost-button:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #1e293b;
+}
+
+.primary-button {
+    width: 100%;
+    text-align: center;
+    background: #2f7d32;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background: #215923;
+}
+
+
+.primary-button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Hộp thông báo lỗi/thành công */
+.result-alert {
+    display: none;
+    padding: 14px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.result-alert.visible {
+    display: block;
+}
+
+.result-alert.success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.result-alert.error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+/* Thông báo khi hệ thống chưa có key nào Active */
+.no-key-alert {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 16px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.no-key-text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.go-to-genkey-btn {
+    background: #d97706;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    transition: background 0.2s;
+}
+
+.go-to-genkey-btn:hover {
+    background: #b45309;
+}

@@ -1,0 +1,245 @@
+main {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+main .title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+main .section-thanh-toan {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+main .section-thanh-toan .information {
+    flex: 2;
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+main .section-thanh-toan .information h2 {
+    color: green;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+main .section-thanh-toan .information .table-information .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+main .section-thanh-toan .information .table-information .row textarea {
+    border-radius: 6px;
+    width: 100%;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+main .section-thanh-toan .information .table-information .address-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px 25px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main .table-information .row .address-info {
+    flex: 1;
+    line-height: 1.6;
+}
+
+.address-info p {
+    margin: 0;
+    color: #333;
+    font-size: 15px;
+}
+main .section-thanh-toan .information .table-information .address-container a{
+    text-decoration: none;
+}
+.address-container .change {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-left: 20px;
+}
+main .section-thanh-toan .information .table-information .address-container a{
+    text-decoration: none;
+}
+main .section-thanh-toan .information .table-information .address-container .change .change-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #333333;
+    color: #333;
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+    margin: 0;
+}
+
+.address-container .change i {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+main .voucher-section {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+main .voucher-image {
+    width: 16px;
+    height: 16px;
+}
+
+main .voucher-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main textarea {
+    font-size: 15px;
+}
+
+main .choosepay {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+main .choosepay .payment-option {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    width: 50%;
+    gap: 12px;
+}
+
+main .choosepay .payment-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+main .section-thanh-toan .information button{
+    display: block;
+    width: 100%;
+    background: forestgreen;
+    color: white;
+    font-size: 18px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+main .section-thanh-toan .information button:hover {
+    background: green;
+}
+
+main .section-thanh-toan .listItem {
+    flex: 1;
+    background: ghostwhite;
+    padding: 20px 25px;
+    border-radius: 6px;
+}
+
+main .section-thanh-toan .listItem h {
+    display: block;
+    color: green;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+main .section-thanh-toan .listItem .listbuy {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+main .section-thanh-toan .listItem .listbuy .listbuyItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 1px solid gray;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+main .section-thanh-toan .listItem .listbuy img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+main .section-thanh-toan .listItem .price {
+    color: red;
+    font-weight: 600;
+}
+
+main .section-thanh-toan .listItem table {
+    width: 100%;
+}
+
+main .section-thanh-toan .listItem th {
+    padding: 10px;
+    text-align: left;
+}
+
+main .section-thanh-toan .listItem table thead {
+    background-color: antiquewhite;
+}
+
+main .section-thanh-toan .listItem table tfoot {
+    border-top: 2px solid white;
+}
+
+main .section-thanh-toan .listItem table tfoot th {
+    text-align: left;
+    color: green;
+}
+
+

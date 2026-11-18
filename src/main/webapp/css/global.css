@@ -1,0 +1,257 @@
+main {
+    flex: 1;
+    margin-top: 123.400px;
+    padding-bottom: 50px;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 1200px;
+}
+
+img {
+    display: block;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header .section-top {
+    background-color: hsl(85, 41%, 56%);
+    height: 75px;
+}
+
+header .section-top .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .section-top .text {
+    color: white;
+    font-weight: bold;
+}
+
+header .section-top .text-logo {
+    font-size: 25px;
+}
+
+header .section-top .search-bar {
+    display: flex;
+    align-items: center;
+}
+
+header .section-top .search-input {
+    box-sizing: border-box;
+    width: 450px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 40px;
+}
+
+header .section-top .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    margin-left: 415px;
+}
+
+header .section-top .group {
+    display: flex;
+    gap: 15px;
+}
+
+header .section-top .sub-group {
+    position: relative;
+    cursor: pointer;
+}
+
+header .section-top .sub-group .text-login {
+    color: white;
+    font-weight: bold;
+}
+
+header .section-top .sub-group .text-login .sub-login {
+    display: none;
+    font-weight: normal;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 180px;
+}
+
+header .section-top .sub-group .text-login .sub-login .sub-item {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    border: black solid 1px;
+
+}
+
+header .section-top .sub-group .text-login .sub-login .sub-item:hover {
+    background-color: #dddddd;
+}
+
+header .section-top .sub-group:hover .text-login .sub-login {
+    display: block;
+}
+
+header .section-top .sub-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+header .section-top .group .text {
+    font-size: 15px;
+}
+
+header .section-top .badge {
+    display: inline-block;
+    background: red;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    left: 11px;
+}
+
+header .section-bottom {
+    background-color: hsl(85, 44%, 40%);
+}
+
+header .section-bottom .container {
+    display: flex;
+    justify-content: center;
+}
+
+header .section-bottom .container nav {
+    display: flex;
+}
+
+header .section-bottom .item {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 15px 30px;
+}
+
+header .section-bottom .sub {
+    display: none;
+    position: absolute;
+    top: 123px;
+    margin-left: -30px;
+    border: 1px solid #cccccc;
+    width: 230px;
+    background-color: white;
+}
+
+header .section-bottom .item:hover {
+    background-color: white;
+    color: black;
+}
+
+header .section-bottom .item:hover .sub {
+    display: block;
+}
+
+header .section-bottom .sub-item {
+    padding: 15px 30px;
+    display: block;
+    color: black;
+}
+
+header .section-bottom .sub-item:hover {
+    background-color: #cccccc;
+}
+
+footer .section-top {
+    background-color: hsl(85, 41%, 56%);
+    color: white;
+}
+
+footer .section-top .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+footer .section-top a {
+    color: white;
+}
+
+footer .section-top .ho-tro-khach-hang {
+    display: flex;
+    flex-direction: column;
+}
+
+footer .section-top .social {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+footer .section-bottom {
+    background-color: hsl(85, 44%, 40%);
+    color: white;
+}
+
+.back-nav-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.back-nav {
+    width: 90%;
+    max-width: 1200px;
+    margin: 16px 0 12px;
+}
+
+/* NÚT BACK */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 16px; /* TO HƠN */
+    font-weight: 600;
+
+    color: black;
+    text-decoration: none;
+
+    padding: 10px 16px; /* NÚT TO */
+}
+
+.back-link i {
+    font-size: 16px;
+}

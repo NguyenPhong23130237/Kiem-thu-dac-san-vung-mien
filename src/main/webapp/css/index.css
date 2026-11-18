@@ -1,0 +1,314 @@
+main a {
+    text-decoration: none;
+}
+
+main .section-banner .slider {
+    position: relative;
+    overflow: hidden;
+}
+
+main .section-banner .slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+main .section-banner .slide {
+    min-width: 100%;
+}
+
+main .section-banner img {
+    width: 100%;
+    height: 450px;
+}
+
+main .section-banner .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.3;
+}
+
+main .section-banner .arrow:hover {
+    opacity: 0.5;
+}
+
+main .section-banner .prev {
+    left: 12px;
+}
+
+main .section-banner .next {
+    right: 12px;
+}
+
+main .section-banner .dots {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+main .section-banner .dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: black;
+    opacity: 0.3;
+    cursor: pointer;
+    padding: 0;
+}
+
+main .section-banner .dots button.active {
+    opacity: 0.5;
+    transform: scale(1.15);
+}
+
+main .section-product {
+    margin-top: 50px;
+}
+
+main .section-product .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: hsl(86, 41%, 63%);
+    border-radius: 10px;
+}
+
+main .section-product .product-image {
+    width: 200px;
+    height: 200px;
+}
+
+main .section-product .label-image {
+    position: absolute;
+    margin-left: -1225px;
+    padding-top: 25px;
+    width: 80px;
+    height: 80px;
+}
+
+main .section-product .title {
+    text-align: center;
+    color: white;
+}
+
+main .section-product .slider {
+    position: relative;
+    overflow: hidden;
+    width: 1160px;
+}
+
+main .section-product .product-list {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+main .section-product .product {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    width: 220px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+main .sale-percent {
+    margin: 0;
+    color: white;
+    font-weight: bold;
+}
+
+main .sale-tag {
+    background-color: red;
+    width: 50px;
+    border-top-right-radius: 10px;
+    position: absolute;
+    margin-top: -11px;
+    margin-left: 159px;
+}
+
+main .product-name {
+    color: black;
+}
+
+main .product-name h3 {
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+main .product-price {
+    display: flex;
+    justify-content: center;
+    gap: 5px
+}
+
+main .new-price {
+    color: red;
+}
+
+main .old-price {
+    font-weight: normal;
+    text-decoration: line-through;
+}
+
+main .section-product .buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(85, 44%, 40%);
+    color: white;
+    width: 100%;
+    height: 30px;
+    font-weight: bold;
+    opacity: 75%;
+    border-radius: 5px;
+}
+
+main .section-product .buy:hover {
+    opacity: 1;
+}
+
+main .buy.disabled,
+main .buy:disabled {
+    background-color: #ccc;
+    color: #666;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Không cho hover khi disabled */
+main .buy.disabled:hover,
+main .buy:disabled:hover {
+    opacity: 0.6;
+}
+
+main .section-product .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    width: 25px;
+    height: 50px;
+    opacity: 0.4;
+}
+
+main .section-product .arrow:hover {
+    opacity: 0.5;
+}
+
+main .section-product .prev {
+    border-radius: 0 10px 10px 0;
+    left: 0;
+}
+
+main .section-product .next {
+    border-radius: 10px 0 0 10px;
+    right: 0;
+}
+
+main .section-product .show-all {
+    text-align: center;
+    color: white;
+}
+
+main .section-dac-san-ba-mien .container {
+    display: flex;
+    flex-direction: column;
+}
+
+main .section-dac-san-ba-mien .dac-san-ba-mien {
+    display: flex;
+    justify-content: space-between;
+}
+
+main .section-dac-san-ba-mien .dac-san-mien {
+    position: relative;
+    display: inline-block;
+    width: 398px;
+    height: 250px;
+}
+
+main .section-dac-san-ba-mien .dac-san-mien-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+main .section-dac-san-ba-mien .overlay {
+    position: absolute;
+    width: 398px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+main .section-dac-san-ba-mien .dac-san-ba-mien img {
+    width: 100%;
+    height: 100%;
+}
+
+main .section-news img {
+    width: 100%;
+    height: 200px;
+}
+
+main .section-news .news-list {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+main .section-news .news {
+    display: flex;
+    flex-direction: column;
+    height: 425px;
+    width: 290px;
+}
+
+main .section-news .news-title {
+    color: black;
+}
+
+main .section-news .show-all {
+    color: black;
+    display: flex;
+    justify-content: right;
+}
+
+main .section-news .show-all h4 {
+    margin: 0;
+}
+
+main .section-news .news-text {
+    height: 100%;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}

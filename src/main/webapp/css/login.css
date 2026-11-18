@@ -1,0 +1,151 @@
+main {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-top: 50px;
+    padding-top: 30px;
+
+}
+main form {
+    width: 100%;
+    max-width: 460px;
+    padding: 30px 40px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main #login {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+main .form-group {
+    width: 90%;
+    max-width: 400px;
+    margin-bottom: 15px;
+}
+
+main .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+main .form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+main .remember-register {
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+main .remember-register a {
+    color: dodgerblue;
+    text-decoration: none;
+}
+
+main #login-btn {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px;
+    background-color: deepskyblue;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+main #login-btn:hover {
+    background-color: dodgerblue;
+}
+
+main .forget {
+    margin-top: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: left;
+}
+
+main .forget a {
+    color: dodgerblue;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+main .divider {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+main .divider::before,
+main .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+main .divider::before {
+    left: 0;
+}
+
+main .divider::after {
+    right: 0;
+}
+
+main .divider span {
+    background-color: white;
+    padding: 0 15px;
+    color: #666;
+    font-size: 14px;
+}
+
+main .google-btn {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px;
+    background-color: white;
+    color: #444;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+main .google-btn:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main .google-icon {
+    flex-shrink: 0;
+}
+
