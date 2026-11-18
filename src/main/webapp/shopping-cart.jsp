@@ -1,0 +1,73 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/shopping-cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="js/shopping-cart.js"></script>
+</head>
+<body>
+<%@ include file="header.jsp" %>
+
+<main>
+    <section class="cart-section">
+        <h1>Giỏ hàng của bạn</h1>
+        <c:choose>
+            <c:when test="${not empty sessionScope.cart and not empty sessionScope.cart.items}">
+                <div class="cart-container">
+                    <c:forEach items="${sessionScope.cart.items}" var="item">
+                        <div class="cart-item">
+                            <form method="post" action="del-item">
+                                <input type="hidden" name="productId" value="${item.product.id}">
+                                <div class="item-left">
+                                    <img src="${item.product.image}"/>
+                                    <button type="submit" class="remove-btn">Xóa</button>
+                                </div>
+                            </form>
+
+                            <div class="item-middle">${item.name}</div>
+
+                            <div class="item-right">
+                                <p class="price">${item.format(item.price)}đ</p>
+                                <form action="update-item" method="post" data-stock="${item.product.quantity}">
+                                    <input type="hidden" name="productId" value="${item.product.id}">
+                                    <div class="quantity-controls">
+                                        <button class="decrease-button">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <input type="text" class="quantity-input" name="quantity"
+                                               value="${item.quantity}"
+                                               readonly>
+                                        <button class="increase-button">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <div class="cart-total">
+                        <p>Tổng cộng: <span
+                                id="total-price">${sessionScope.cart.format(sessionScope.cart.total)}đ</span></p>
+                        <a class="order-btn" href="checkout">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Đặt hàng
+                        </a>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <p>Giỏ hàng của bạn đang trống.</p>
+            </c:otherwise>
+        </c:choose>
+    </section>
+</main>
+
+
+<%@ include file="footer.jsp" %>
+</body>
+</html>
