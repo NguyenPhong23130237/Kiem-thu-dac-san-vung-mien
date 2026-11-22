@@ -64,6 +64,11 @@ public class Cart implements Serializable {
         return data.get(id);
     }
 
+    public int getQuantityInCart(int productId) {
+        CartItem item = get(productId);
+        return item == null ? 0 : item.getQuantity();
+    }
+
     public int getTotalQuantity() {
         AtomicInteger total = new AtomicInteger();
         getItems().forEach(item -> {
