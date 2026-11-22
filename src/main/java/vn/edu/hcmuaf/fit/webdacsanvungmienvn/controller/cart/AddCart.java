@@ -23,7 +23,11 @@ public class AddCart extends HttpServlet {
         ProductService productService = new ProductService();
         Product product = productService.getProduct(productId);
         if (product != null) {
-            if (quantity > product.getQuantity()) {
+
+            int currentQty = cart.getQuantityInCart(productId);
+            long totalAfterAdd = (long) currentQty + quantity;
+
+            if (quantity <= 0 || totalAfterAdd > product.getQuantity()) {
                 String referer = request.getHeader("Referer");
                 response.sendRedirect(referer != null ? referer : "home");
                 return;
