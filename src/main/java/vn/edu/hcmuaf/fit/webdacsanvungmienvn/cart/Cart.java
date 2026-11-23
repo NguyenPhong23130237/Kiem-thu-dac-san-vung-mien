@@ -24,6 +24,10 @@ public class Cart implements Serializable {
     }
 
     public void addItem(Product product, int quantity) {
+        if (product == null) {
+            return;
+        }
+
         if (quantity <= 0) {
             quantity = 1;
         }
