@@ -32,7 +32,21 @@ public class OrderService {
     private final GenKeyDAO keyDao = new GenKeyDAO();
 
     public int createOrder(Cart cart) {
-        if (cart.getPaymentMethod() == null) {
+        if (cart == null) {
+            throw new IllegalArgumentException("Giỏ hàng không hợp lệ");
+        }
+
+        if (cart.getUser() == null) {
+            throw new IllegalArgumentException("Thông tin người dùng không được để trống");
+        }
+
+        List<CartItem> items = cart.getItems();
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Giỏ hàng đang trống, không thể tạo đơn hàng");
+        }
+
+        String payment = cart.getPaymentMethod();
+        if (payment == null || payment.isBlank()) {
             throw new IllegalArgumentException("Vui lòng chọn phương thức thanh toán");
         }
         if (cart.getShippingInfo() == null) {
