@@ -162,7 +162,61 @@ public class OrderService {
         }
 
         String mapped = mapStatus(raw);
+        String current = mapStatus(existing.getStatus());
+        if ("Đã hủy".equals(mapped) && !"Đã hủy".equals(current)) {
+            return cancelOrderAndRestoreInventory(id, mapped);
+        }
         return orderDAO.updateOrderStatus(id, mapped);
+    }
+
+    private boolean cancelOrderAndRestoreInventory(int orderId, String cancelStatus) {
+        String selectItemsSql = "SELECT product_id, product_quantity FROM order_items WHERE order_id = ?";
+        String restoreProductSql = "UPDATE products " +
+                "SET quantity = quantity + ?, sold_quantity = GREATEST(sold_quantity - ?, 0) " +
+                "WHERE id = ?";
+        String updateOrderStatusSql = "UPDATE orders SET status = ? WHERE id = ?";
+
+        try (Connection conn = DBConnect.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement selectItemsPs = conn.prepareStatement(selectItemsSql);
+                 PreparedStatement restoreProductPs = conn.prepareStatement(restoreProductSql);
+                 PreparedStatement updateOrderPs = conn.prepareStatement(updateOrderStatusSql)) {
+
+                selectItemsPs.setInt(1, orderId);
+                try (ResultSet rs = selectItemsPs.executeQuery()) {
+                    while (rs.next()) {
+                        int productId = rs.getInt("product_id");
+                        int quantity = rs.getInt("product_quantity");
+
+                        restoreProductPs.setInt(1, quantity);
+                        restoreProductPs.setInt(2, quantity);
+                        restoreProductPs.setInt(3, productId);
+                        int updated = restoreProductPs.executeUpdate();
+                        if (updated <= 0) {
+                            conn.rollback();
+                            return false;
+                        }
+                    }
+                }
+
+                updateOrderPs.setString(1, cancelStatus);
+                updateOrderPs.setInt(2, orderId);
+                int orderUpdated = updateOrderPs.executeUpdate();
+                if (orderUpdated <= 0) {
+                    conn.rollback();
+                    return false;
+                }
+
+                conn.commit();
+                return true;
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Order> searchOrders(String keyword) throws SQLException {
