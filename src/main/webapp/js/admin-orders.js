@@ -12,6 +12,27 @@
         return document.getElementById(id);
     }
 
+    function mapOrderStatus(status) {
+        if (!status) return 'Đang xử lý';
+        const raw = String(status).trim();
+        if (!raw) return 'Đang xử lý';
+        if (raw === 'Đang xử lý' || raw === 'Đang giao' || raw === 'Đã giao' || raw === 'Đã hủy') return raw;
+
+        const low = raw.toLowerCase();
+        if (low.indexOf('completed') !== -1 || low.indexOf('đã giao') !== -1 || low.indexOf('da giao') !== -1
+            || low.indexOf('delivered') !== -1 || low.indexOf('done') !== -1) return 'Đã giao';
+        if (low.indexOf('cancel') !== -1 || low.indexOf('hủy') !== -1 || low.indexOf('huy') !== -1) return 'Đã hủy';
+        if (low.indexOf('processing') !== -1 || low.indexOf('xử') !== -1 || low.indexOf('xu ly') !== -1
+            || low.indexOf('pending') !== -1) return 'Đang xử lý';
+        if (low.indexOf('shipping') !== -1 || low.indexOf('ship') !== -1 || low.indexOf('đang giao') !== -1
+            || low.indexOf('giao') !== -1) return 'Đang giao';
+        return 'Đang xử lý';
+    }
+
+    function isDeliveredStatus(status) {
+        return mapOrderStatus(status) === 'Đã giao';
+    }
+
     function createOrderItemRow() {
         const row = document.createElement('div');
         row.className = 'order-item-row';
@@ -99,9 +120,9 @@
             const editBtn = modal.querySelector('.modal-footer .btn-warning');
             if (editBtn) {
                 const sigStatus = tpl ? tpl.getAttribute('data-sig-status') : '';
-                if (sigStatus === 'VALID') {
+                const orderStatus = tpl ? tpl.getAttribute('data-order-status') : '';
+                if (sigStatus === 'VALID' && !isDeliveredStatus(orderStatus)) {
                     editBtn.style.display = '';
-                    const orderStatus = tpl ? tpl.getAttribute('data-order-status') : '';
                     editBtn.onclick = function () {
                         window.closeModal('detailModal');
                         showOrderEdit(orderId, orderStatus);
@@ -135,24 +156,11 @@
             if (idInput && idInput !== hiddenId) idInput.value = String(orderId);
 
             const statusSelect = form.querySelector('select[name="status"]');
-            const mapStatus = function (s) {
-                if (!s) return 'Đang xử lý';
-                const raw = s.toString().trim();
-
-                // If already exact Vietnamese enum values, keep.
-                if (raw === 'Đang xử lý' || raw === 'Đang giao' || raw === 'Đã giao' || raw === 'Đã hủy') return raw;
-
-                s = raw.toLowerCase();
-
-                // Match 'Đã giao' first (because it contains 'giao')
-                if (s.indexOf('completed') !== -1 || s.indexOf('đã giao') !== -1 || s.indexOf('da giao') !== -1 || s.indexOf('delivered') !== -1 || s.indexOf('done') !== -1) return 'Đã giao';
-                if (s.indexOf('cancel') !== -1 || s.indexOf('hủy') !== -1 || s.indexOf('huy') !== -1) return 'Đã hủy';
-                if (s.indexOf('processing') !== -1 || s.indexOf('xử') !== -1 || s.indexOf('xu ly') !== -1 || s.indexOf('pending') !== -1) return 'Đang xử lý';
-                if (s.indexOf('shipping') !== -1 || s.indexOf('ship') !== -1 || s.indexOf('đang giao') !== -1 || s.indexOf('giao') !== -1) return 'Đang giao';
-                return 'Đang xử lý';
-            };
-
-            const mapped = mapStatus(status || '');
+            const mapped = mapOrderStatus(status || '');
+            if (isDeliveredStatus(mapped)) {
+                if (window.showAlert) window.showAlert('Đơn hàng đã giao không thể cập nhật trạng thái.', 'error');
+                return;
+            }
             if (statusSelect) {
                 const opt = statusSelect.querySelector('option[value="' + mapped + '"]');
                 statusSelect.value = opt ? mapped : 'Đang xử lý';
@@ -349,4 +357,3 @@
     window.showOrderEdit = showOrderEdit;
 
 })(window, document);
-

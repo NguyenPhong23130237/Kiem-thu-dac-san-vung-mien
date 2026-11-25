@@ -69,17 +69,25 @@ public class UpdateOrderAdminServlet extends HttpServlet {
                 int id = Integer.parseInt(idStr.trim());
 
                 Order order = orderService.getOrderById(id);
-                String sigStatus = orderService.verifySignatureStatus(order);
-                if (!"VALID".equals(sigStatus)) {
-                    String reason = "UNSIGNED".equals(sigStatus)
-                            ? "Đơn hàng chưa được xác thực bằng chữ ký số."
-                            : "Chữ ký số của đơn hàng không hợp lệ (dữ liệu đã bị thay đổi).";
-                    message = "Không thể cập nhật trạng thái: " + reason;
-                    System.out.println("[UpdateOrderAdminServlet] Blocked update for order " + id + " — sigStatus=" + sigStatus);
+                if (order == null) {
+                    message = "Không tìm thấy đơn hàng.";
+                    System.out.println("[UpdateOrderAdminServlet] Blocked update for missing order id=" + id);
+                } else if (orderService.isDeliveredStatus(order.getStatus())) {
+                    message = "Không thể cập nhật trạng thái: đơn hàng đã giao.";
+                    System.out.println("[UpdateOrderAdminServlet] Blocked update for delivered order id=" + id);
                 } else {
-                    success = orderService.updateOrderStatus(id, status);
-                    message = success ? "Cập nhật trạng thái thành công" : "Cập nhật trạng thái thất bại";
-                    System.out.println("[UpdateOrderAdminServlet] updateOrderStatus returned=" + success + " for id=" + id + " status=" + status);
+                    String sigStatus = orderService.verifySignatureStatus(order);
+                    if (!"VALID".equals(sigStatus)) {
+                        String reason = "UNSIGNED".equals(sigStatus)
+                                ? "Đơn hàng chưa được xác thực bằng chữ ký số."
+                                : "Chữ ký số của đơn hàng không hợp lệ (dữ liệu đã bị thay đổi).";
+                        message = "Không thể cập nhật trạng thái: " + reason;
+                        System.out.println("[UpdateOrderAdminServlet] Blocked update for order " + id + " — sigStatus=" + sigStatus);
+                    } else {
+                        success = orderService.updateOrderStatus(id, status);
+                        message = success ? "Cập nhật trạng thái thành công" : "Cập nhật trạng thái thất bại";
+                        System.out.println("[UpdateOrderAdminServlet] updateOrderStatus returned=" + success + " for id=" + id + " status=" + status);
+                    }
                 }
             } catch (NumberFormatException e) {
                 message = "Order id không hợp lệ";

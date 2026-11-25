@@ -73,44 +73,44 @@ public class OrderService {
         return orderId;
     }
 
-    private void normalizeStatus(Order order) {
-        if (order == null) return;
-        String s = order.getStatus();
-        if (s == null || s.trim().isEmpty()) {
-            order.setStatus("Đang xử lý");
-            return;
+    private String mapStatus(String status) {
+        if (status == null || status.trim().isEmpty()) {
+            return "Đang xử lý";
         }
 
-        String raw = s.trim();
-
+        String raw = status.trim();
         if (raw.equals("Đang xử lý") || raw.equals("Đang giao") || raw.equals("Đã giao") || raw.equals("Đã hủy")) {
-            order.setStatus(raw);
-            return;
+            return raw;
         }
 
         String low = raw.toLowerCase();
-        if (low.contains("process") || low.contains("pend") || low.contains("pending") || low.contains("xử") || low.contains("xu ly") || low.contains("chưa")) {
-            order.setStatus("Đang xử lý");
-            return;
+        if (low.contains("process") || low.contains("processing") || low.contains("pend") || low.contains("pending")
+                || low.contains("xử") || low.contains("xu ly") || low.contains("chưa")) {
+            return "Đang xử lý";
         }
-        if (low.contains("ship") || low.contains("shipping") || low.contains("shipped") || low.contains("đang giao") || low.contains("giao")) {
-            order.setStatus("Đang giao");
-            return;
+        if (low.contains("complete") || low.contains("completed") || low.contains("delivered") || low.contains("done")
+                || low.contains("đã giao") || low.contains("da giao") || low.contains("hoàn thành")
+                || low.contains("paid") || low.contains("thanh toán") || low.contains("online")) {
+            return "Đã giao";
         }
-        if (low.contains("complete") || low.contains("completed") || low.contains("delivered") || low.contains("done") || low.contains("đã giao") || low.contains("da giao") || low.contains("hoàn thành")) {
-            order.setStatus("Đã giao");
-            return;
+        if (low.contains("cancel") || low.contains("canceled") || low.contains("cancelled")
+                || low.contains("hủy") || low.contains("huy")) {
+            return "Đã hủy";
         }
-        if (low.contains("cancel") || low.contains("canceled") || low.contains("cancelled") || low.contains("hủy") || low.contains("huy")) {
-            order.setStatus("Đã hủy");
-            return;
+        if (low.contains("ship") || low.contains("shipping") || low.contains("shipped")
+                || low.contains("đang giao") || low.contains("giao")) {
+            return "Đang giao";
         }
-        if (low.contains("paid") || low.contains("thanh toán") || low.contains("online")) {
-            order.setStatus("Đã giao");
-            return;
-        }
+        return raw;
+    }
 
-        order.setStatus(raw);
+    public boolean isDeliveredStatus(String status) {
+        return "Đã giao".equals(mapStatus(status));
+    }
+
+    private void normalizeStatus(Order order) {
+        if (order == null) return;
+        order.setStatus(mapStatus(order.getStatus()));
     }
 
     public List<Order> getOrdersByUserId(int userId) {
@@ -123,6 +123,9 @@ public class OrderService {
 
     public Order getOrderById(int orderId) {
         Order order = orderDAO.getOrderById(orderId);
+        if (order == null) {
+            return null;
+        }
         order.setOrderItems(orderItemDAO.getOrderItemsByOrderId(orderId));
         return order;
     }
@@ -152,23 +155,13 @@ public class OrderService {
         String raw = status.trim();
         if (raw.isEmpty()) return false;
 
-        String low = raw.toLowerCase();
-
-        String mapped;
-        if (raw.equals("Đang xử lý") || raw.equals("Đang giao") || raw.equals("Đã giao") || raw.equals("Đã hủy")) {
-            mapped = raw;
-        } else if (low.contains("processing") || low.contains("xử") || low.contains("xu ly") || low.contains("pending")) {
-            mapped = "Đang xử lý";
-        } else if (low.contains("shipping") || low.contains("giao") || low.contains("ship")) {
-            mapped = "Đang giao";
-        } else if (low.contains("completed") || low.contains("đã giao") || low.contains("da giao") || low.contains("delivered") || low.contains("done")) {
-            mapped = "Đã giao";
-        } else if (low.contains("cancel") || low.contains("hủy") || low.contains("huy")) {
-            mapped = "Đã hủy";
-        } else {
-            mapped = raw;
+        Order existing = orderDAO.getOrderById(id);
+        if (existing == null) return false;
+        if (isDeliveredStatus(existing.getStatus())) {
+            return false;
         }
 
+        String mapped = mapStatus(raw);
         return orderDAO.updateOrderStatus(id, mapped);
     }
 
@@ -269,4 +262,3 @@ public class OrderService {
         return map;
     }
 }
-
