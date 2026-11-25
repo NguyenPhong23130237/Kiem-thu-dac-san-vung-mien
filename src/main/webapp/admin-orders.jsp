@@ -171,8 +171,9 @@
                                             data-order-id="${order.id}">
                                         <i class="fas fa-eye"></i>
                                     </button>
+                                    <c:set var="isDelivered" value="${fn:trim(order.status) == 'completed' || fn:trim(order.status) == 'Đã giao'}"/>
                                     <c:choose>
-                                        <c:when test="${sigSt == 'VALID'}">
+                                        <c:when test="${sigSt == 'VALID' && !isDelivered}">
                                             <button type="button" class="btn btn-warning btn-sm btn-edit-order" title="Sửa trạng thái"
                                                     data-order-id="${order.id}"
                                                     data-status="${fn:escapeXml(order.status)}">
@@ -181,7 +182,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <button type="button" class="btn btn-secondary btn-sm" disabled
-                                                    title="${sigSt == 'INVALID' ? 'Chữ ký không hợp lệ — không thể sửa' : 'Đơn hàng chưa được xác thực — không thể sửa'}"
+                                                    title="${isDelivered ? 'Đơn hàng đã giao — không thể sửa' : (sigSt == 'INVALID' ? 'Chữ ký không hợp lệ — không thể sửa' : 'Đơn hàng chưa được xác thực — không thể sửa')}"
                                                     style="opacity:0.45; cursor:not-allowed;">
                                                 <i class="fas fa-lock"></i>
                                             </button>
@@ -549,4 +550,3 @@
 <script src="<%=request.getContextPath()%>/js/admin-orders.js"></script>
 </body>
 </html>
-
