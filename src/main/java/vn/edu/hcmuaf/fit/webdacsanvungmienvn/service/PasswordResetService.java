@@ -10,9 +10,16 @@ public class PasswordResetService {
     private final PasswordResetDAO passwordResetDAO = new PasswordResetDAO();
 
     public void sendPasswordResetEmail(int userId, String email) throws Exception {
-        if (userId == -1) {
+        sendPasswordResetEmail(userId, email, "http://localhost:8080");
+    }
+
+    public void sendPasswordResetEmail(int userId, String email, String baseUrl) throws Exception {
+        if (userId <= 0) {
             // Không làm gì nếu email không tồn tại trong hệ thống
             return;
+        }
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email must not be empty");
         }
         // Xóa token cũ
         passwordResetDAO.deleteTokenByUserId(userId);
@@ -23,7 +30,10 @@ public class PasswordResetService {
 
         passwordResetDAO.saveToken(userId, token, expiry);
 
-        String link = "http://localhost:8080/WebDacSanVungMienVN/password-reset?token=" + token;
+        String normalizedBaseUrl = (baseUrl != null && baseUrl.endsWith("/"))
+                ? baseUrl.substring(0, baseUrl.length() - 1)
+                : baseUrl;
+        String link = normalizedBaseUrl + "/password-reset?token=" + token;
 
         String content =
                 "<div style='font-family:Arial,sans-serif;line-height:1.6'>"

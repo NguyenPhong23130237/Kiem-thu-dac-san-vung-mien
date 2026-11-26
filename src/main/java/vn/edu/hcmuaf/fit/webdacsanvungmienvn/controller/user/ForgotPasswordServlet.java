@@ -7,11 +7,11 @@ import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.dao.UserDAO;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.model.User;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.service.PasswordResetService;
+import vn.edu.hcmuaf.fit.webdacsanvungmienvn.util.EmailUtil;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
 
 @WebServlet("/forgot-password")
 public class ForgotPasswordServlet extends HttpServlet {
@@ -38,16 +38,23 @@ public class ForgotPasswordServlet extends HttpServlet {
             response.sendRedirect("forgot-password?error=" + URLEncoder.encode("Email không được để trống", StandardCharsets.UTF_8));
             return;
         }
+        email = email.trim();
+
         User user = userDAO.findByEmail(email);
-        int userId = user != null && user.getProvider().equals("LOCAL") ? user.getId() : -1;
-        session.setAttribute("userId", userId);
-        session.setAttribute("email", email);
+        int userId = user != null && "LOCAL".equals(user.getProvider()) ? user.getId() : -1;
+        String targetEmail = user != null ? user.getEmail() : email;
+
         PasswordResetService passwordResetService = new PasswordResetService();
         try {
-            passwordResetService.sendPasswordResetEmail(userId, email);
+            String baseUrl = EmailUtil.buildBaseUrl(request);
+            passwordResetService.sendPasswordResetEmail(userId, targetEmail, baseUrl);
+            session.setAttribute("userId", userId);
+            session.setAttribute("email", targetEmail);
+            session.removeAttribute("passwordResetDone");
             response.sendRedirect("password-reset-notice.jsp");
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("forgot-password?error=" + URLEncoder.encode("Không thể gửi email đặt lại mật khẩu. Vui lòng thử lại sau.", StandardCharsets.UTF_8));
         }
     }
 }

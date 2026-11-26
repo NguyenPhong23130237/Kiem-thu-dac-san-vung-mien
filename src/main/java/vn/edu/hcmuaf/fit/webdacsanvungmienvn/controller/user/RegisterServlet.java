@@ -31,11 +31,15 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
+        email = email.trim();
+
         if (fullname == null || fullname.trim().isEmpty()) {
             request.setAttribute("error", "Họ và tên không được để trống");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
+        fullname = fullname.trim();
+
         if (password == null || password.trim().isEmpty()) {
             request.setAttribute("error", "Mật khẩu không được để trống");
             request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -64,16 +68,25 @@ public class RegisterServlet extends HttpServlet {
         }
 
         int userId = userDAO.insertUser(email, fullname, password);
-
-        request.getSession().setAttribute("userId", userId);
-        request.getSession().setAttribute("email", email);
+        if (userId <= 0) {
+            request.setAttribute("error", "Không thể tạo tài khoản. Vui lòng thử lại.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
 
         VerificationService verificationService = new VerificationService();
         try {
-            verificationService.sendVerificationEmail(userId, email);
+            String baseUrl = VerificationService.buildBaseUrl(request);
+            verificationService.sendVerificationEmail(userId, email, baseUrl);
+            request.getSession().setAttribute("userId", userId);
+            request.getSession().setAttribute("email", email);
             response.sendRedirect("verify-notice.jsp");
         } catch (Exception e) {
             e.printStackTrace();
+            new VerificationDAO().deleteTokenByUserId(userId);
+            userDAO.deleteUser(userId);
+            request.setAttribute("error", "Không thể gửi email xác minh. Vui lòng kiểm tra lại email hoặc thử lại sau.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
 }

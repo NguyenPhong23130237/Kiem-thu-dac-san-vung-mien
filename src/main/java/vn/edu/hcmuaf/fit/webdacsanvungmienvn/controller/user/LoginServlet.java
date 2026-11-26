@@ -42,18 +42,22 @@ public class LoginServlet extends HttpServlet {
 
 
         if (user != null) {
-            if (user.getProvider().equals("LOCAL") && !user.isVerified()) {
+            if ("LOCAL".equals(user.getProvider()) && !user.isVerified()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("email", user.getEmail());
 
                 VerificationService verificationService = new VerificationService();
                 try {
-                    verificationService.sendVerificationEmail(user.getId(), user.getEmail());
+                    String baseUrl = VerificationService.buildBaseUrl(request);
+                    verificationService.sendVerificationEmail(user.getId(), user.getEmail(), baseUrl);
                     response.sendRedirect("verify-notice.jsp");
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    request.setAttribute("error", "Tài khoản chưa được xác minh và không thể gửi email xác minh. Vui lòng thử lại sau.");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    return;
                 }
             }
             HttpSession session = request.getSession();

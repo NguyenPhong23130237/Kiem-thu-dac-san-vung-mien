@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.service.PasswordResetService;
+import vn.edu.hcmuaf.fit.webdacsanvungmienvn.util.EmailUtil;
 
 import java.io.IOException;
 
@@ -30,7 +31,8 @@ public class ResendPasswordReset extends HttpServlet {
 
         PasswordResetService passwordResetService = new PasswordResetService();
         try {
-            passwordResetService.sendPasswordResetEmail(userId, email);
+            String baseUrl = EmailUtil.buildBaseUrl(request);
+            passwordResetService.sendPasswordResetEmail(userId, email, baseUrl);
             response.getWriter().write("{\"success\": true, \"message\": \"Đã gửi lại email\"}");
         } catch (Exception e) {
             e.printStackTrace();

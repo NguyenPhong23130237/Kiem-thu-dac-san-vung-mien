@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webdacsanvungmienvn.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.dao.VerificationDAO;
 import vn.edu.hcmuaf.fit.webdacsanvungmienvn.util.EmailUtil;
 
@@ -9,7 +10,21 @@ import java.util.UUID;
 public class VerificationService {
     private final VerificationDAO vDAO = new VerificationDAO();
 
+    public static String buildBaseUrl(HttpServletRequest request) {
+        return EmailUtil.buildBaseUrl(request);
+    }
+
     public void sendVerificationEmail(int userId, String email) throws Exception {
+        sendVerificationEmail(userId, email, "http://localhost:8080");
+    }
+
+    public void sendVerificationEmail(int userId, String email, String baseUrl) throws Exception {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid userId for verification email: " + userId);
+        }
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email must not be empty");
+        }
 
         // Xóa token cũ
         vDAO.deleteTokenByUserId(userId);
@@ -20,7 +35,10 @@ public class VerificationService {
 
         vDAO.saveToken(userId, token, expiry);
 
-        String link = "http://localhost:8080/WebDacSanVungMienVN/verify-email?token=" + token;
+        String normalizedBaseUrl = (baseUrl != null && baseUrl.endsWith("/"))
+                ? baseUrl.substring(0, baseUrl.length() - 1)
+                : baseUrl;
+        String link = normalizedBaseUrl + "/verify-email?token=" + token;
 
         String content =
                 "<div style='font-family:Arial,sans-serif;line-height:1.6'>"

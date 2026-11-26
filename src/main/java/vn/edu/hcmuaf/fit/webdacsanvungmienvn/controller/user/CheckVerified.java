@@ -24,7 +24,9 @@ public class CheckVerified extends HttpServlet {
 
             UserDAO userDAO = new UserDAO();
             User user = userDAO.getUserById(userId);
-            verified = user.isVerified();
+            if (user != null) {
+                verified = user.isVerified();
+            }
 
             // Nếu đã verified → xóa khỏi session
             if (verified) {

@@ -19,7 +19,7 @@ public class CheckPasswordResetDone extends HttpServlet {
 
         if (session != null && session.getAttribute("userId") != null &&
                 session.getAttribute("email") != null) {
-            passwordResetDone = (Boolean) session.getAttribute("passwordResetDone");
+            passwordResetDone = Boolean.TRUE.equals(session.getAttribute("passwordResetDone"));
 
             if (passwordResetDone) {
                 session.removeAttribute("userId");

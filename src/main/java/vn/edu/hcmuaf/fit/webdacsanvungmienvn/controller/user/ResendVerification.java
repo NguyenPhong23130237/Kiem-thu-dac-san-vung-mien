@@ -28,7 +28,6 @@ public class ResendVerification extends HttpServlet {
         }
         UserDAO userDAO = new UserDAO();
         int userId = (int) session.getAttribute("userId");
-        String email = (String) session.getAttribute("email");
         User user = userDAO.getUserById(userId);
 
         if (user == null) {
@@ -43,7 +42,9 @@ public class ResendVerification extends HttpServlet {
 
         VerificationService verificationService = new VerificationService();
         try {
-            verificationService.sendVerificationEmail(userId, email);
+            String baseUrl = VerificationService.buildBaseUrl(request);
+            verificationService.sendVerificationEmail(userId, user.getEmail(), baseUrl);
+            session.setAttribute("email", user.getEmail());
             response.getWriter().write("{\"success\": true, \"message\": \"Đã gửi lại email xác minh\"}");
         } catch (Exception e) {
             e.printStackTrace();

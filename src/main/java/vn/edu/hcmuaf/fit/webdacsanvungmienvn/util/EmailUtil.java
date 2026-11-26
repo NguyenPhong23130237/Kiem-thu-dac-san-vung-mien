@@ -3,10 +3,29 @@ package vn.edu.hcmuaf.fit.webdacsanvungmienvn.util;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Properties;
 
 public class EmailUtil {
+
+    public static String buildBaseUrl(HttpServletRequest request) {
+        String scheme = request.getScheme();
+        String serverName = request.getServerName();
+        int serverPort = request.getServerPort();
+        String contextPath = request.getContextPath();
+
+        StringBuilder baseUrl = new StringBuilder();
+        baseUrl.append(scheme).append("://").append(serverName);
+        if (("http".equalsIgnoreCase(scheme) && serverPort != 80)
+                || ("https".equalsIgnoreCase(scheme) && serverPort != 443)) {
+            baseUrl.append(":").append(serverPort);
+        }
+        if (contextPath != null && !contextPath.isEmpty()) {
+            baseUrl.append(contextPath);
+        }
+        return baseUrl.toString();
+    }
 
     public static void sendEmail(String to, String subject, String htmlContent) throws Exception {
 

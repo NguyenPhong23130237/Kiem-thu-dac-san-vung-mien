@@ -5,20 +5,22 @@ import vn.edu.hcmuaf.fit.webdacsanvungmienvn.util.DBConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class PasswordResetDAO {
 
-    public void saveToken(int userId, String token, Timestamp expiry) {
+    public void saveToken(int userId, String token, Timestamp expiry) throws SQLException {
         String sql = "INSERT INTO password_reset_tokens(user_id, token, expiry_time) VALUES(?,?,?)";
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setString(2, token);
             ps.setTimestamp(3, expiry);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            int affected = ps.executeUpdate();
+            if (affected == 0) {
+                throw new SQLException("Failed to insert password reset token for userId=" + userId);
+            }
         }
     }
 

@@ -506,18 +506,19 @@ public class UserDAO {
         return false;
     }
 
-    public void setVerified(int userId) {
+    public boolean setVerified(int userId) {
         String sql = "UPDATE users SET is_verified = true WHERE id = ?";
 
         try (Connection conn = DBConnect.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
-            ps.executeUpdate();
+            return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public User getUserById(int userId) {
